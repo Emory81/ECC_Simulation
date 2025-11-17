@@ -15,7 +15,6 @@ This project was created as part of *Basic Programming*, but is designed to serv
 * [Transmission Mediums](#transmission-mediums)
 * [Environmental Variables](#environmental-variables)
 * [Running the Program](#running-the-program)
-* [Future Plans](#future-plans)
 
 ---
 
@@ -27,19 +26,19 @@ This CLI application guides the user through selecting:
 2. A **transmission medium**
 3. Several **environmental variables** (noise level, hops, error multipliers, etc.)
 
-The simulation uses Python’s `random` library to inject errors in unpredictable ways—mimicking real-world randomness in communication channels.
-The intention is to observe how far different ECCs can be pushed before they fail, and how environmental conditions influence reliability.
+The simulation uses Python’s `random` library to create errors in unpredictable ways, simulating real-world randomness in mediums.
+The intention is to observe how far different ECCs can be pushed before they fail, and how  conditions can change reliability.
 
 ---
 
 ## Features
 
-✔ Interactive CLI prompts
-✔ Multiple ECC methods to choose from
-✔ Configurable environmental conditions
-✔ Medium selection (e.g., copper wire, fiber, satellite radio, WiFi 7)
-✔ Randomized error simulation
-✔ Supports large test batches (up to 100,000 trials)
+- Interactive CLI prompts
+- Multiple ECC methods to choose from
+- Configurable environmental conditions
+- Medium selection (e.g., copper wire, fiber, satellite radio, WiFi 7)
+- Randomized error simulation
+- Supports large test batches (up to 100,000 trials)
 
 ---
 
@@ -109,17 +108,3 @@ python main.py
 ```
 
 You will be guided through all selections interactively.
-
----
-
-## Future Plans
-
-Planned enhancements include:
-
-* Implementing actual ECC encode/decode logic
-* Adding bit-flip simulation per hop
-* Medium-specific noise profiles
-* Gathering metrics (correction rates, residual errors, overhead, etc.)
-* Exporting results to CSV
-* Visualization tools
-* Modular ECC method folder (`ecc_methods/`)

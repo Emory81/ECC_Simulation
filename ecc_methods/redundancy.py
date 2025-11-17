@@ -7,7 +7,7 @@
 def encode(data):
     global encoded_data, num_repeats
 
-    num_repeats = input("How many times would you like to repeat each message for redundancy? (1-100): ")
+    num_repeats = input("(ECC Prompt) How many times would you like to repeat each message for redundancy? (1-100): ")
     try:
         num_repeats = int(num_repeats)
         if num_repeats < 1 or num_repeats > 100:
