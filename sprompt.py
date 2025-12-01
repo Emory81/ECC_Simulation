@@ -32,7 +32,7 @@ def medium_input():
     print("3. Coaxial Cable")
     print("4. Cat6 Ethernet Cable")
     print("5. Satellite Radio")
-    print("6. 5 Generation Network")
+    print("6. 5th Generation Network")
     print("7. FM Radio")
     print("8. Wifi 7")
     ecc_medium = input("Enter the number corresponding to your choice: ")
