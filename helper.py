@@ -23,17 +23,28 @@ def method_encoder(data_string):
     # Handle ECC method selection. If a method is not implemented, fall back to no ECC (pass-through).
     choice = sprompt.ecc_method
 
-    if choice == '4':
-        # Redundancy ECC (implemented)
+    if choice == '1':
+        ecc.parity.encode(data_string)
+        encoded_data = ecc.parity.encoded_data
+    elif choice == '2':
+        ecc.hamming.encode(data_string)
+        encoded_data = ecc.hamming.encoded_data
+    elif choice == '3':
+        ecc.reed_solomon.encode(data_string)
+        encoded_data = ecc.reed_solomon.encoded_data
+    elif choice == '4':
         ecc.redundancy.encode(data_string)
         encoded_data = ecc.redundancy.encoded_data
+    elif choice == '5':
+        ecc.checksum.encode(data_string)
+        encoded_data = ecc.checksum.encoded_data
     elif choice == '6':
-        # No ECC
-        encoded_data = data_string
+        ecc.no_ecc.encode(data_string)
+        encoded_data = ecc.no_ecc.encoded_data
     else:
-        # Other ECC methods not implemented yet; use no ECC but inform the user.
-        print(f"ECC method {choice} is not implemented. Proceeding with no ECC.")
-        encoded_data = data_string
+        print(f"ECC method {choice} does not exist. Proceeding with no ECC.")
+        ecc.no_ecc.encode(data_string)
+        encoded_data = ecc.no_ecc.encoded_data
 
     last_encoded_data = encoded_data
     return encoded_data
@@ -42,24 +53,32 @@ def method_decoder(transmitted_data):
     # Use stored encoded data for decoding metrics when possible.
     choice = sprompt.ecc_method
 
-    if choice == '4':
-        metrics = ecc.redundancy.decode(transmitted_data)
-        return metrics
+    # Dispatch to selected ECC decoder
+    if choice == '1':
+        return ecc.parity.decode(transmitted_data)
+    elif choice == '2':
+        return ecc.hamming.decode(transmitted_data)
+    elif choice == '3':
+        return ecc.reed_solomon.decode(transmitted_data)
+    elif choice == '4':
+        return ecc.redundancy.decode(transmitted_data)
+    elif choice == '5':
+        return ecc.checksum.decode(transmitted_data)
+    elif choice == '6':
+        return ecc.no_ecc.decode(transmitted_data)
 
-    # For no ECC or unimplemented methods, compute basic metrics using the last encoded data.
+    # Fallback: use last encoded data and no-ECC decode
     try:
         encoded_data = last_encoded_data
     except NameError:
         print("Error: No encoded data available for decoding. Did you run method_encoder?")
         return None
 
-    # Simple decode function for no ECC: take the first test result as the decoded message
     def _no_ecc_decode(encoded_data_local, test_results):
         if len(test_results) == 0:
             return ''
         return test_results[0][:len(encoded_data_local)]
 
-    # Compute metrics using ECC helper
     metrics = ecc.helper.compute_metrics(
         encoded_data=encoded_data,
         transmitted_data=transmitted_data,
