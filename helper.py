@@ -20,7 +20,7 @@ def data_creator():
 def method_encoder(data_string):
     global last_encoded_data
 
-    # Handle ECC method selection. If a method is not implemented, fall back to no ECC (pass-through).
+    # Handle ECC method selection. If a method does not exist, fall back to no ECC.
     choice = sprompt.ecc_method
 
     if choice == '1':
@@ -50,10 +50,8 @@ def method_encoder(data_string):
     return encoded_data
 
 def method_decoder(transmitted_data):
-    # Use stored encoded data for decoding metrics when possible.
     choice = sprompt.ecc_method
 
-    # Dispatch to selected ECC decoder
     if choice == '1':
         return ecc.parity.decode(transmitted_data)
     elif choice == '2':
@@ -67,11 +65,10 @@ def method_decoder(transmitted_data):
     elif choice == '6':
         return ecc.no_ecc.decode(transmitted_data)
 
-    # Fallback: use last encoded data and no-ECC decode
     try:
         encoded_data = last_encoded_data
     except NameError:
-        print("Error: No encoded data available for decoding. Did you run method_encoder?")
+        print("Error: No encoded data found from encoding step.")
         return None
 
     def _no_ecc_decode(encoded_data_local, test_results):
