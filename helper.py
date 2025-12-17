@@ -5,6 +5,7 @@
 #Helper functions for the main.py file.
 
 import random
+import time
 import sprompt
 import ecc_methods as ecc
 import mediums
@@ -108,3 +109,21 @@ def medium_runner(encoded_data):
         transmitted_data = mediums.copper.medium(encoded_data)
 
     return transmitted_data
+
+def print_metrics(metrics):
+    print("\nSimulation Results:")
+    print("-------------------")
+    print(f"Total Tests: {metrics['total_tests']}")
+    print(f"Error-Free Tests: {metrics['error_free_tests']}")
+    print(f"Tests with Errors: {metrics['tests_with_errors']}\n")
+
+    print("Bit Error Counts per Test:")
+    print(f"{metrics['bit_error_counts']}\n")
+
+    print("Bit Error Rates per Test:")
+    print(f"{[round(rate, 3) for rate in metrics['bit_error_rates']]}\n")
+
+    print("Waiting 5 seconds before displaying final decoded message...\n")
+    time.sleep(5)
+    print("Final Decoded Message:")
+    print(f"{metrics['decoded_message']}\n")
